@@ -8,12 +8,14 @@ public class TopDownMovement : MonoBehaviour
 
     private TopDownCharacterController _controller;
     private Vector2 _movementDirection = Vector2.zero;
+    private CharacterStatsHandler _stats;
     private Rigidbody2D _rigidbody;
-    [SerializeField] private GameObject talkPop;
+
 
     private void Awake()
     {
         _controller = GetComponent<TopDownCharacterController>();
+        _stats = GetComponent<CharacterStatsHandler>();
         _rigidbody = GetComponent<Rigidbody2D>();
     }
     private void Start()
@@ -27,7 +29,7 @@ public class TopDownMovement : MonoBehaviour
 
     private void ApplyMovement(Vector2 direction)
     {
-        direction = direction * 10;
+        direction = direction * _stats.CurrentStates.speed;
         _rigidbody.velocity = direction;
     }
 
@@ -36,22 +38,5 @@ public class TopDownMovement : MonoBehaviour
         _movementDirection = direction;
     }
 
-    private void Look(Vector2 direction)
-    {
-
-    }
-    public void OnTriggerStay2D(Collider2D collision)
-    {
-        if (collision.tag == "talk")
-        {
-            talkPop.SetActive(true);
-        }
-    }
-    public void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.tag == "talk")
-        {
-            talkPop.SetActive(false);
-        }
-    }
+    
 }

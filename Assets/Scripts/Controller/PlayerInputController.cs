@@ -5,10 +5,12 @@ using UnityEngine.InputSystem;
 
 public class PlayerInputController : TopDownCharacterController
 {
+    [SerializeField] private GameObject talkPop;
     private Camera _camera;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         _camera = Camera.main;
     }
 
@@ -30,5 +32,19 @@ public class PlayerInputController : TopDownCharacterController
     private void FixedUpdate()
     {
         _camera.transform.position = new Vector3(transform.position.x, transform.position.y, _camera.transform.position.z);
+    }
+    public void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.tag == "talk")
+        {
+            talkPop.SetActive(true);
+        }
+    }
+    public void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.tag == "talk")
+        {
+            talkPop.SetActive(false);
+        }
     }
 }
